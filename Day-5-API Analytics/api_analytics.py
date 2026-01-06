@@ -25,7 +25,7 @@ def reuests_per_status():
     codes = {}
 
     for each in liss:
-        ip = each[3]
+        ip = each[4]
         codes[ip] = codes.get(ip, 0) + 1
 
     return codes
@@ -36,7 +36,7 @@ def status_codes_per_endpoint():
     for each in liss:
 
         ep = each[2]
-        sc = each[3]
+        sc = each[4]
 
         if ep not in sc_endpoints:
             sc_endpoints[ep] = {}
@@ -84,13 +84,18 @@ def avg_respons_per_endpoint():
     for every in response:
         response[every] = int(sum(response[every])/ len(response[every]))
     
-    print(response)
+    return(response)
 
     #for each in liss:
     #   response[each[2]] = response.get(each[2], 0) + int(each[5])
     # print(response)
-        
-    
+
+def max_avg_response_per_endpoint():
+    diss = avg_respons_per_endpoint()
+
+    max_res = max(diss, key = diss.get)
+
+    print(f"The max response time is {diss[max_res]} of {max_res} endpoint")
 
 def main():
 
@@ -104,9 +109,13 @@ def main():
     print("status codes per endpoint - 8 ")
     print("Total number of reuests failed - 9")
     print("Average response per endpoint - 10")
+    print("Max response time per endpoint - 11")
+    try:
+        n = int(input().strip())
+    except ValueError:
+        print("---------Please enter Valid input------------")
+        return True
     
-    n = int(input().strip())
-
     if n == 1:
         return False 
     if n == 2:
@@ -142,7 +151,10 @@ def main():
         return True
     
     if n == 10:
-        avg_respons_per_endpoint()
+        print(avg_respons_per_endpoint())
+        return True
+    if n == 11:
+        max_avg_response_per_endpoint()
         return True
     
 
