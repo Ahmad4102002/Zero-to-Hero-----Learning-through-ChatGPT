@@ -123,12 +123,9 @@ class RateLimiter:
             
         
         # local rate limiter
-
-        nums2 = self.local_dict[identifier][endpoint]
-        
-
-        if endpoint in self.endpoint_limits[tier]:
-            limit1 , window1 = self.global_limits[tier][endpoint]
+        if tier in self.endpoint_limits and endpoint in self.endpoint_limits[tier]:
+            nums2 = self.local_dict[identifier][endpoint]
+            limit1 , window1 = self.endpoint_limits[tier][endpoint]
 
             while nums2 and time_stamp - nums2[0] > window1:
                 nums2.pop(0)
@@ -138,15 +135,6 @@ class RateLimiter:
 
         nums.append(time_stamp)
         return True
-
-    
-
-        
-
-
-
-
-
 
 
 global_limits = {
